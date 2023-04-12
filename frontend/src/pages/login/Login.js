@@ -11,6 +11,10 @@ function Login() {
 
   const { login } = useContext(AuthContext);
 
+  const arrowlogin = () => {
+    console.log("hi");
+  };
+
   const handleSubmit = async (event) => {
     // Prevent default actions
     event.preventDefault();
@@ -30,10 +34,13 @@ function Login() {
       // Define authState
       const authState = {
         isLoggedIn: true,
-        token: data.token,
+        token: data.token, // userId's jwt + backend's serect key
         username: data.username,
         userId: data.userId,
+        message: data.message,
       };
+
+      console.log("authState", authState);
       // Call the login function to update authState
       login(authState);
       // Redirect to the home page
@@ -47,6 +54,7 @@ function Login() {
     <div className={classes.login}>
       <Form className={classes.form} onSubmit={handleSubmit}>
         <h1>Log In</h1>
+        <a>weruewrhiu</a>
         <Form.Group className="mb-3" controlId="email">
           <Form.Label>Email</Form.Label>
           <Form.Control type="email" placeholder="Enter email" />
