@@ -1,0 +1,29 @@
+.navbar {
+  height: 50px;
+  background-color: #000080;
+  display: flex;
+  padding: 0 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  font-weight: 500;
+  font-size: large;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navLinks a {
+  text-decoration: none;
+  color: white;
+  font-size: large;
+  font-weight: 500;
+}

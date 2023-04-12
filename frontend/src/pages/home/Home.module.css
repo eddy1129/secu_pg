@@ -1,0 +1,23 @@
+.home {
+  display: flex;
+  justify-content: center;
+}
+.container {
+  width: 100%;
+  max-width: 1024px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 32px;
+  min-height: 100vh;
+}
+.productsContainer {
+  width: 100%;
+  min-height: 787px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 20px;
+  grid-auto-rows: minmax(100px, auto);
+}
