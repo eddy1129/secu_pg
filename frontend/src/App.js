@@ -10,7 +10,7 @@ import Login from "./pages/login/Login";
 function App() {
   return (
     <AuthProvider>
-      <a>werwerwerwer</a>
+      <a href="/">link text</a>
       <CartProvider>
         <BrowserRouter>
           <Navbar brand="iBookStore" />
