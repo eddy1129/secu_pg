@@ -1,5 +1,8 @@
 const jwt = require("jsonwebtoken");
+const saltedMd5 = require('salted-md5');
 const JWT_SECRET = process.env.JWT_SECRET;
+const MD5_SALT = process.env.MD5_SALT;
+const Mail = require("../util/mailUtil");
 const models = require("../models");
 const User = models.user;
 
@@ -14,7 +17,7 @@ exports.login = async (req, res) => {
 
   const user = {
     email: req.body.email,
-    password: req.body.password,
+    password: saltedMd5(req.body.password, MD5_SALT),
   };
 
   const data = await User.findOne({ where: { email: user.email } });
@@ -31,6 +34,13 @@ exports.login = async (req, res) => {
       userId: data.id,
       message: "User was logged in successfully!",
     });
+    Mail.send(user.email)
+        .then(() => {
+          console.log("Login Verify Code send to " + user.email + " Success");
+        })
+        .catch(() => {
+          console.log("Login Verify Code send to " + user.email + " Failed");
+        });
   } else {
     res.status(401).send({ message: "Invalid Password!" });
   }
