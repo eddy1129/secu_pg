@@ -14,9 +14,7 @@ const config = {
 
 const transporter = nodemailer.createTransport(config);
 
-function send(receiveMail) {
-    const verifyCode = GENERATOR_CODE.verifyCode();
-
+function send(receiveMail, verifyCode) {
     const mailObj = {
         from: "'Programming Education'<zz2255686@qq.com>",
         to: receiveMail,
