@@ -6,6 +6,7 @@ import { CartProvider } from "./store/cart-context";
 import { AuthProvider } from "./store/auth-context";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./pages/login/Login";
+import Register from "./pages/register/register";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </BrowserRouter>
       </CartProvider>
