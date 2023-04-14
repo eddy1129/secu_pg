@@ -8,6 +8,7 @@ const initialAuthState = {
   token: null,
   username: null,
   userId: null,
+  message: null,
 };
 
 // Create the provider
@@ -25,6 +26,7 @@ export function AuthProvider(props) {
 
   // Login function, update the authState with the new token
   const login = (authState) => {
+    console.log("call login");
     setAuthState(authState);
     localStorage.setItem("authState", JSON.stringify(authState));
   };
@@ -41,6 +43,7 @@ export function AuthProvider(props) {
     token: authState.token,
     username: authState.username,
     userId: authState.userId,
+    message: authState.message,
     login: login,
     logout: logout,
   };

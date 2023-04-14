@@ -11,6 +11,7 @@ models.sequelize.sync();
 
 app.use(express.json());
 app.use(cors());
+
 const productsRoutes = require("./routes/product.routes");
 const usersRoutes = require("./routes/user.routes");
 const cartsRoutes = require("./routes/cart.routes");
