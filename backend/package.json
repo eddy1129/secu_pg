@@ -15,7 +15,10 @@
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
     "sequelize": "^6.25.3",
-    "stripe": "^10.17.0"
+    "stripe": "^10.17.0",
+    "salted-md5": "^4.0.3",
+    "nodemailer": "^6.9.1",
+    "nodemailer-smtp-transport": "^2.7.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

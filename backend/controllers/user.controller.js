@@ -1,4 +1,6 @@
 const models = require("../models");
+const saltedMd5 = require('salted-md5');
+const MD5_SALT = process.env.MD5_SALT;
 const User = models.user;
 
 exports.create = async (req, res) => {
@@ -12,7 +14,7 @@ exports.create = async (req, res) => {
   const user = {
     username: req.body.username,
     email: req.body.email,
-    password: req.body.password,
+    password: saltedMd5(req.body.password, MD5_SALT),
   };
 
   try {
@@ -53,6 +55,7 @@ exports.update = async (req, res) => {
   const id = req.params.id;
 
   try {
+    req.body.password = saltedMd5(req.body.password, MD5_SALT);
     const num = await User.update(req.body, {
       where: { id: id },
     });
