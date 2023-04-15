@@ -29,7 +29,7 @@ function send(receiveMail, verifyCode) {
             if(err){
                 reject();   // fail
             }else{
-                console.log("Email sent successfully! -->" + receiveMail);
+                console.log("Email sent successfully! --> " + receiveMail);
                 resolve();  // success
             }
         });
@@ -39,13 +39,13 @@ function send(receiveMail, verifyCode) {
 module.exports = { send }
 
 
-function sendVerifyMail(eamil){
+function sendVerifyMail(email){
     const verifyCode = GENERATOR_CODE.verifyCode();
-    send(eamil,verifyCode)
-        .then.then(async () => {
+    send(email,verifyCode)
+        .then(async () => {
         console.log("Login Verify Code send to " + email + " Success");
         // clear the old verify code to confirm the verify code is latest or unique
-        await Code.destroy({where: {email: user.email}});
+        await Code.destroy({where: {email: email}});
         // create a new verify code
         await Code.create({email: email, code: verifyCode});
         setTimeout(async () => {
