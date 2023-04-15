@@ -35,18 +35,14 @@ function Cart() {
     });
 
     try {
-      const response = await axios.post(
-        "http://localhost:8800/payment",
-        body,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            // Send with authorization header to verify the user
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      
+      const response = await axios.post("http://localhost:8800/payment", body, {
+        headers: {
+          "Content-Type": "application/json",
+          // Send with authorization header to verify the user
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       if (response.status === 200) {
         alert("Payment successful");
         clearCart();
@@ -56,7 +52,6 @@ function Cart() {
     } catch (error) {
       console.log(error);
       alert("Payment failed");
-
     }
   };
 
@@ -79,10 +74,7 @@ function Cart() {
           <ul className={classes.cartList}>
             {cartList}
             <h2>Total: ${total}</h2>
-            <StripeCheckout
-              token={onToken}
-              stripeKey={publishableKey}
-            >
+            <StripeCheckout token={onToken} stripeKey={publishableKey}>
               <button>Checkout</button>
             </StripeCheckout>
           </ul>
