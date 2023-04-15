@@ -18,6 +18,8 @@ const cartsRoutes = require("./routes/cart.routes");
 const ordersRoutes = require("./routes/order.routes");
 const authRoutes = require("./routes/auth.routes");
 const paymentRoutes = require("./routes/payment.routes");
+const codeRoutes = require("./routes/code.routes");
+const apiRoutes = require("./routes/api.routes");
 
 app.use("/products", productsRoutes);
 app.use("/users", usersRoutes);
@@ -25,5 +27,7 @@ app.use("/carts", cartsRoutes);
 app.use("/orders", ordersRoutes);
 app.use("/auth", authRoutes);
 app.use("/payment", paymentRoutes);
+app.use("/code", codeRoutes);
+app.use("/api", apiRoutes);
 
 app.listen(port);

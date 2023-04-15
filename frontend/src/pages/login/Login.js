@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useCallback} from "react";
 import axios from "axios";
+import JSEncrypt from "jsencrypt";
 import classes from "./Login.module.css";
 import { Form, Button } from "react-bootstrap";
 import AuthContext from "../../store/auth-context";
@@ -18,19 +19,29 @@ function Login() {
   const handleRegister = () => {
     navigate("/register");
   };
+
   const handleSubmit = async (event) => {
     // Prevent default actions
     event.preventDefault();
 
+    const encryptor = new JSEncrypt();
+
     // Get email and password from the form
     const email = event.target.email.value;
-    const password = event.target.password.value;
+    let password = event.target.password.value;
 
     // Get response from the server
     try {
+      const res = await axios.get("http://localhost:8800/api/getPublicKey");
+      console.log("public key", res.data.publicKey);
+
+      encryptor.setPublicKey(res.data.publicKey);
+
+      password = encryptor.encrypt(password);
+
       const response = await axios.post("http://localhost:8800/auth/login", {
         email,
-        password,
+        password
       });
       // Get data from the response
       const data = response.data;
