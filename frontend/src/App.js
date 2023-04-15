@@ -7,6 +7,7 @@ import { AuthProvider } from "./store/auth-context";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/register";
+import Verify from "./pages/register/verifyCode";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="verify" element={<Verify />} />
           </Routes>
         </BrowserRouter>
       </CartProvider>
