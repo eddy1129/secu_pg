@@ -4,6 +4,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const MD5_SALT = process.env.MD5_SALT;
 const Mail = require("../util/mailUtil");
 const GENERATOR_CODE = require('../util/GeneratorVerifyCodeUtil');
+const RSA = require('../util/rsaUtil');
 const models = require("../models");
 const User = models.user;
 const Code = models.code;
@@ -17,9 +18,11 @@ exports.login = async (req, res) => {
     return;
   }
 
+  const password = RSA.doDecrypt(req.body.password);
+
   const user = {
     email: req.body.email,
-    password: saltedMd5(req.body.password, MD5_SALT),
+    password: saltedMd5(password, MD5_SALT),
   };
 
   const data = await User.findOne({ where: { email: user.email } });

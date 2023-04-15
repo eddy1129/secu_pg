@@ -13,6 +13,6 @@ router.get("/", code.findAll);
 
 router.get("/:email", code.findOne);
 
-router.post("/verify", code.verify);
+router.post("/verify", code.verifyCode);
 
 module.exports = router;
