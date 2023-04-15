@@ -15,6 +15,9 @@ function Login() {
     console.log("hi");
   };
 
+  const handleRegister = () => {
+    navigate("/register");
+  };
   const handleSubmit = async (event) => {
     // Prevent default actions
     event.preventDefault();
@@ -66,7 +69,9 @@ function Login() {
         <Button variant="primary" type="submit">
           Submit
         </Button>
-        <Button variant="link">Register</Button>
+        <Button variant="link" onClick={handleRegister}>
+          Register
+        </Button>
       </Form>
     </div>
   );
