@@ -96,3 +96,27 @@ exports.findOne = async (req, res) => {
         });
     }
 }
+
+exports.verifyCode = async (req, res) => {
+    if (!req.body.email || !req.body.password) {
+        res.status(400).send({
+            message: "The request is empty.",
+        });
+        return;
+    }
+
+    const data = await Code.findOne({ where: { email: user.email } });
+
+    if (data.code == req.body.code) {
+
+        await Code.destroy({ where: { email: email }});
+
+        res.status(200).send({
+            message: "Code is correct.",
+        });
+    }else {
+        res.status(400).send({
+            message: "Code is incorrect.",
+        });
+    }
+}
