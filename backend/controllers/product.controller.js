@@ -49,7 +49,7 @@ exports.bulkCreate = async (req, res) => {
       message: err.message || "Error",
     });
   }
-}
+};
 
 // Delete a product with the id
 exports.delete = async (req, res) => {

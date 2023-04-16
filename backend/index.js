@@ -20,6 +20,7 @@ const authRoutes = require("./routes/auth.routes");
 const paymentRoutes = require("./routes/payment.routes");
 const codeRoutes = require("./routes/code.routes");
 const apiRoutes = require("./routes/api.routes");
+const msgRoutes = require("./routes/msgRoutes.routes");
 
 app.use("/products", productsRoutes);
 app.use("/users", usersRoutes);
@@ -29,5 +30,6 @@ app.use("/auth", authRoutes);
 app.use("/payment", paymentRoutes);
 app.use("/code", codeRoutes);
 app.use("/api", apiRoutes);
+app.use("/messages", msgRoutes);
 
 app.listen(port);

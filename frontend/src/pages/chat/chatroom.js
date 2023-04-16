@@ -2,11 +2,14 @@ import "./chat.css";
 import io from "socket.io-client";
 import { useState } from "react";
 import Chat from "./chat";
+import AuthContext from "../../store/auth-context";
+import { useContext } from "react";
 
 const socket = io.connect("http://localhost:3001");
 
 function Chatroom() {
-  const [username, setUsername] = useState("");
+  const { username } = useContext(AuthContext);
+
   const [room, setRoom] = useState("");
   const [showChat, setShowChat] = useState(false);
 
@@ -22,13 +25,6 @@ function Chatroom() {
       {!showChat ? (
         <div className="joinChatContainer">
           <h3>Join A Chat</h3>
-          <input
-            type="text"
-            placeholder="John..."
-            onChange={(event) => {
-              setUsername(event.target.value);
-            }}
-          />
           <input
             type="text"
             placeholder="Room ID..."
