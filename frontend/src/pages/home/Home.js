@@ -18,8 +18,8 @@ function Home() {
   // Each page contains 6 items
   const limit = 6;
 
-	// useEffect hook is used to fetch the data from the API
-  useEffect(() => {
+  // useEffect hook is used to fetch the data from the API
+  /*  useEffect(() => {
     // Declare a async function to fetch the data
     const fetchProducts = async () => {
       // Get the response from the server
@@ -30,10 +30,10 @@ function Home() {
       if (data) {
         setProducts(data);
       }
-    }
+    };
     // Call the async function
     fetchProducts();
-  }, []);
+  }, []); */
 
   // Compute the number of pages from the number of items
   const pageCount = Math.ceil(products.length / limit);

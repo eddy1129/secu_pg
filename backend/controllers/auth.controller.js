@@ -30,7 +30,7 @@ exports.login = async (req, res) => {
   }
   if (data.password == user.password) {
     var token = jwt.sign({ id: data.id }, JWT_SECRET, {
-      expiresIn: 86400, // expires in 24 hours
+      expiresIn: 1800, // expires in 30 min
     });
     res.status(200).send({
       token: token,
@@ -38,7 +38,7 @@ exports.login = async (req, res) => {
       userId: data.id,
       message: "User was logged in successfully!",
     });
-    console.log("==================email==============", user.email);
+    console.log("============email============", user.email);
     Mail.sendVerifyMail(user.email);
   } else {
     res.status(401).send({ message: "Invalid Password!" });
