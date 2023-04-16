@@ -56,7 +56,7 @@ export default function Register() {
       .catch(function (error) {
         console.log(error);
       });
-    alert("Welcome to Xhampster");
+    alert("Welcome ");
   };
 
   return (
