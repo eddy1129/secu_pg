@@ -16,5 +16,6 @@ models.cart = require("./cart.model.js")(sequelize);
 models.user = require("./user.model.js")(sequelize);
 models.order = require("./order.model.js")(sequelize);
 models.code = require("./code.model.js")(sequelize);
+models.msg = require("./msg.model.js")(sequelize);
 
 module.exports = models;
