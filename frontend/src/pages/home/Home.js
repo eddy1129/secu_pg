@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "../../store/auth-context.js";
+import CartContext from "../../store/cart-context.js";
 
 import ProductItem from "../../components/ProductItem";
 import CarouselFade from "../../components/CarouselFade";
@@ -10,6 +11,7 @@ import productsData from "../../productsData";
 
 function Home() {
   const { username } = useContext(AuthContext);
+  const { userType } = useContext(CartContext);
 
   const [paymentRecord, setPaymentRecord] = useState([]);
   useEffect(() => {

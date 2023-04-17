@@ -5,17 +5,26 @@ const CartContext = createContext();
 
 // Define initial state for cart items, which should be an empty list
 const initialCartState = [];
+const initialType = "nothing";
 
 // Define CartProvider component
 export function CartProvider(props) {
   // Apply useState hook to generate a update function
   const [cartState, setCartState] = useState(initialCartState);
+  const [userType, setUserType] = useState(initialType);
 
   // Define a addCartItem function that add a product to the cart list
   const addCartItem = (item) => {
     setCartState((prevCart) =>
       prevCart.filter((cartItem) => cartItem.id !== item.id).concat(item)
     );
+  };
+
+  const defineStudent = () => {
+    setUserType("student");
+  };
+  const defineTeacher = () => {
+    setUserType("teacher");
   };
 
   // Define a removeCartItem function that remove a product from the cart list
@@ -36,6 +45,9 @@ export function CartProvider(props) {
     addCartItem: addCartItem,
     removeCartItem: removeCartItem,
     clearCart: clearCart,
+    defineStudent: defineStudent,
+    userType: userType,
+    defineTeacher: defineTeacher,
   };
 
   return (

@@ -3,6 +3,7 @@ import JSEncrypt from "jsencrypt";
 import classes from "./Login.module.css";
 import { Form, Button } from "react-bootstrap";
 import AuthContext from "../../store/auth-context";
+import CartContext from "../../store/cart-context";
 import { useNavigate } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
 
@@ -15,6 +16,7 @@ function Login() {
   const navigate = useNavigate();
 
   const { login } = useContext(AuthContext);
+  const { userType } = useContext(CartContext);
 
   const handleRegister = () => {
     navigate("/register");
@@ -97,7 +99,8 @@ function Login() {
         // Call the login function to update authState
         login(authState);
         // Redirect to the home page
-        navigate("/");
+
+        userType === "teacher" ? navigate("/teacher") : navigate("/student");
       } catch (error) {
         console.log(error);
       }
@@ -124,7 +127,7 @@ function Login() {
 
       {!verifyView && (
         <Form className={classes.form} onSubmit={handleSubmit}>
-          <h1>Log In</h1>
+          <h1>Log In {userType}</h1>
           <Form.Group className="mb-3" controlId="email">
             <Form.Label>Email</Form.Label>
             <Form.Control type="email" placeholder="Enter email" />

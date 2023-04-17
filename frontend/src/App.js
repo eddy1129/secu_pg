@@ -10,15 +10,19 @@ import Chat from "./pages/chat/chatroom";
 import History from "./pages/history/history";
 import Register from "./pages/register/register";
 import Verify from "./pages/register/verifyCode";
+import Select from "./pages/login/Select";
+import TeacherHome from "./pages/home/TeacherHome";
 
 function App() {
   return (
     <AuthProvider>
       <CartProvider>
         <BrowserRouter>
-          <Navbar brand="iBookStore" chatroom="Chatroom" />
+          <Navbar brand="Meta Eduation" chatroom="Chatroom" />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Select />} />
+            <Route path="/student" element={<Home />} />
+            <Route path="/teacher" element={<TeacherHome />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/login" element={<Login />} />

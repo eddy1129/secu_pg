@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import CartContext from "../../store/cart-context.js";
 
 export default function Register() {
+  const { userType } = useContext(CartContext);
   const [f_username, setUsername] = useState("");
   const [f_password, setPassword] = useState("");
   const [f_email, setEmail] = useState("");
@@ -49,6 +51,7 @@ export default function Register() {
         username: f_username,
         email: f_email,
         password: f_password,
+        userType: userType,
       })
       .then(function (response) {
         console.log(response);
@@ -75,7 +78,7 @@ export default function Register() {
                 <div class="row justify-content-center">
                   <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                     <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-                      Sign up
+                      Sign up {userType}
                     </p>
 
                     <form class="mx-1 mx-md-4">
