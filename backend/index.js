@@ -21,6 +21,7 @@ const paymentRoutes = require("./routes/payment.routes");
 const codeRoutes = require("./routes/code.routes");
 const apiRoutes = require("./routes/api.routes");
 const msgRoutes = require("./routes/msgRoutes.routes");
+const paymentRecordRoutes = require("./routes/paymentRecord.routes");
 
 app.use("/products", productsRoutes);
 app.use("/users", usersRoutes);
@@ -31,5 +32,6 @@ app.use("/payment", paymentRoutes);
 app.use("/code", codeRoutes);
 app.use("/api", apiRoutes);
 app.use("/messages", msgRoutes);
+app.use("/paymentRecord", paymentRecordRoutes);
 
 app.listen(port);

@@ -16,7 +16,7 @@ function App() {
       <a href="/">link text</a>
       <CartProvider>
         <BrowserRouter>
-          <Navbar brand="iBookStore" />
+          <Navbar brand="iBookStore" chatroom="Chatroom" />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/cart" element={<Cart />} />

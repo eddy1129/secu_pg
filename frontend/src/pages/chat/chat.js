@@ -6,7 +6,10 @@ import axios from "axios";
 function Chat({ socket, username, room }) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
-
+  const currentDate = new Date();
+  const hours = currentDate.getHours().toString().padStart(2, "0");
+  const minutes = currentDate.getMinutes().toString().padStart(2, "0");
+  const timeString = `${hours}:${minutes}`;
   useEffect(() => {
     const fetchMsg = async () => {
       try {
@@ -27,13 +30,7 @@ function Chat({ socket, username, room }) {
         room: room,
         username: username,
         usermsg: currentMessage,
-        time: new Date(Date.now())
-          .toLocaleTimeString("en-US", {
-            hour12: false,
-            hour: "2-digit",
-            minute: "2-digit",
-          })
-          .replace(":", "."),
+        time: timeString,
       };
 
       await socket.emit("send_message", messageData);
