@@ -6,8 +6,8 @@ import axios from "axios";
 import JSEncrypt from "jsencrypt";
 
 function generateKey() {
-  const key = CryptoJS.lib.WordArray.random(128 / 8);
-  const iv = CryptoJS.lib.WordArray.random(128 / 8);
+  const key = CryptoJS.lib.WordArray.random(256 / 8);
+  const iv = CryptoJS.lib.WordArray.random(256 / 8);
 
   return {
     key: CryptoJS.enc.Base64.stringify(key),
