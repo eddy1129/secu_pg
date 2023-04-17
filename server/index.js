@@ -39,7 +39,7 @@ io.on("connection", (socket) => {
     const decrypted_message = decryptByAes(data.content, key, iv);
     const message = JSON.parse(decrypted_message);
 
-    socket.to(data.room).emit("receive_message", message);
+    socket.to(message.room).emit("receive_message", message);
     console.log("some one sd msg", message);
   });
 
