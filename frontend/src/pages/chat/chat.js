@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import CryptoJS from 'crypto-js';
+import React, { useEffect, useState } from "react";
+import CryptoJS from "crypto-js";
 import ScrollToBottom from "react-scroll-to-bottom";
 import "./chat.css";
 import axios from "axios";
@@ -30,12 +30,11 @@ function encryptMessage(message, pair) {
   const encrypted = CryptoJS.AES.encrypt(plaintext, key_p, {
     iv: iv_p,
     mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.Pkcs7
+    padding: CryptoJS.pad.Pkcs7,
   });
 
-    return encrypted.ciphertext.toString();
+  return encrypted.ciphertext.toString();
 }
-
 
 function Chat({ socket, username, room }) {
   const [currentMessage, setCurrentMessage] = useState("");
@@ -73,10 +72,10 @@ function Chat({ socket, username, room }) {
       const vi = await encryptByRsa(pair.iv);
       const encryptedMessage = encryptMessage(messageData, pair);
       const message = {
-        key : key,
+        key: key,
         sign: vi,
-        content : encryptedMessage,
-      }
+        content: encryptedMessage,
+      };
 
       await socket.emit("send_message", message);
       setMessageList((list) => [...list, messageData]);
@@ -85,6 +84,7 @@ function Chat({ socket, username, room }) {
       /* backend save data */
 
       try {
+        console.log("===========message try", message);
         axios
           .post(`http://localhost:8800/messages`, {
             message: message,

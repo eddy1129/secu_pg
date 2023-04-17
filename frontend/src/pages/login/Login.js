@@ -40,8 +40,8 @@ function Login() {
     try {
       const rsa = await axios.get("http://localhost:8800/api/getPublicKey");
       console.log(
-      "============login===  public key   ================",
-        res.data.publicKey
+        "============login===  public key   ================",
+        rsa.data.publicKey
       );
 
       encryptor.setPublicKey(rsa.data.publicKey);
