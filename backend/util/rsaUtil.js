@@ -22,3 +22,12 @@ function rsaEncryptForPri(data) {
 }
 
 module.exports = { rsaDecrypt, rsaEncryptForPri }
+
+
+function generateKeyPair() {
+    const key = new NodeRSA({ b: 1024 });
+    const publicKey = key.exportKey("public");
+    const privateKey = key.exportKey("private");
+    fs.writeFileSync(path.resolve(__dirname, "../pub.key"), publicKey);
+    fs.writeFileSync(path.resolve(__dirname, "../pri.key"), privateKey);
+}
