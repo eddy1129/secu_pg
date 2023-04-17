@@ -1,4 +1,3 @@
-import React, { useCallback } from "react";
 import axios from "axios";
 import JSEncrypt from "jsencrypt";
 import classes from "./Login.module.css";
@@ -10,9 +9,8 @@ import { useContext, useState, useEffect } from "react";
 function Login() {
   const [verifyView, setVerifyView] = useState(false);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [Epassword, setEPassword] = useState("");
-  const [vCode, setVCode] = useState("werwerewrwerewrwrwerwr");
+  const [vCode, setVCode] = useState("No verify code");
 
   const navigate = useNavigate();
 
@@ -25,6 +23,7 @@ function Login() {
   useEffect(() => {
     console.log("Updated vCode:", vCode);
   }, [vCode]);
+
   const handleSubmit = async (event) => {
     // Prevent default actions
     event.preventDefault();
@@ -36,14 +35,13 @@ function Login() {
     const passwordValue = event.target.password.value;
 
     setEmail(emailValue);
-    setPassword(passwordValue);
 
     // Get response from the server
     try {
       const rsa = await axios.get("http://localhost:8800/api/getPublicKey");
       console.log(
-        "============login===public key================",
-        rsa.data.publicKey
+      "============login===  public key   ================",
+        res.data.publicKey
       );
 
       encryptor.setPublicKey(rsa.data.publicKey);
@@ -59,14 +57,9 @@ function Login() {
         }
       );
 
-      console.log(emailValue, encryptedPassword);
-      console.log("vCode", vCodeResponse.data.verCode);
-      const x = vCodeResponse.data.verCode;
-
-      setVCode(x);
-      console.log("Updated vCode:", vCode);
-
-      console.log(vCode);
+      console.log("vCodeResponse.data.verCode", vCodeResponse.data.verCode);
+      const verCodeString = vCodeResponse.data.verCode;
+      setVCode(verCodeString);
       setVerifyView(true);
     } catch (error) {
       console.log(error);
@@ -80,7 +73,7 @@ function Login() {
     console.log("==========login vCode", vCode);
 
     const verificationCodeValue = event.target?.verificationCode?.value;
-    console.log("verificationCodeValue", verificationCodeValue);
+    console.log("input verificationCodeValue", verificationCodeValue);
     if (verificationCodeValue === vCode) {
       try {
         const response = await axios.post("http://localhost:8800/auth/login", {
@@ -94,7 +87,7 @@ function Login() {
         // Define authState
         const authState = {
           isLoggedIn: true,
-          token: data.token, // userId's jwt + backend's serect key
+          token: data.token, // jwt(userId,serect key,expires)
           username: data.username,
           userId: data.userId,
           message: data.message,

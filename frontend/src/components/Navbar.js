@@ -12,11 +12,7 @@ function Navbar(props) {
     alert("You have been logged out");
   };
 
-  const loginLink = (
-    <Link to="/login">
-      Log in
-    </Link>
-  );
+  const loginLink = <Link to="/login">Log in</Link>;
 
   const logoutLink = <Link onClick={logoutHandler}>Log out</Link>;
 
@@ -26,6 +22,12 @@ function Navbar(props) {
     <div className={classes.navbar}>
       <Link to="/" className={classes.brand}>
         {props.brand}
+      </Link>
+      <Link to="/history" className={classes.brand}>
+        My History
+      </Link>
+      <Link to="/chat" className={classes.brand}>
+        {props.chatroom}
       </Link>
       <div className={classes.navLinks}>
         {isLoggedIn && userLink}

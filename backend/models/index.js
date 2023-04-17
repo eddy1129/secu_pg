@@ -17,5 +17,6 @@ models.user = require("./user.model.js")(sequelize);
 models.order = require("./order.model.js")(sequelize);
 models.code = require("./code.model.js")(sequelize);
 models.msg = require("./msg.model.js")(sequelize);
+models.paymentRecord = require("./paymentRecord.model.js")(sequelize);
 
 module.exports = models;
