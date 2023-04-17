@@ -23,6 +23,7 @@ function Login() {
   useEffect(() => {
     console.log("Updated vCode:", vCode);
   }, [vCode]);
+
   const handleSubmit = async (event) => {
     // Prevent default actions
     event.preventDefault();
@@ -72,7 +73,7 @@ function Login() {
     console.log("==========login vCode", vCode);
 
     const verificationCodeValue = event.target?.verificationCode?.value;
-    console.log("verificationCodeValue", verificationCodeValue);
+    console.log("input verificationCodeValue", verificationCodeValue);
     if (verificationCodeValue === vCode) {
       try {
         const response = await axios.post("http://localhost:8800/auth/login", {

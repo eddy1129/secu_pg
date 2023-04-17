@@ -23,6 +23,9 @@ function Navbar(props) {
       <Link to="/" className={classes.brand}>
         {props.brand}
       </Link>
+      <Link to="/history" className={classes.brand}>
+        My History
+      </Link>
       <Link to="/chat" className={classes.brand}>
         {props.chatroom}
       </Link>

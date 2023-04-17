@@ -30,7 +30,7 @@ exports.login = async (req, res) => {
   }
   if (data.password == user.password) {
     var token = jwt.sign({ id: data.id }, JWT_SECRET, {
-      expiresIn: 1800, // expires in 30 min
+      expiresIn: 36000, // expires in 30 min
     });
     res.status(200).send({
       token: token,

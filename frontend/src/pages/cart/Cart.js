@@ -20,7 +20,7 @@ function Cart() {
   const now = moment();
 
   // Format the time as per your requirement
-  const formattedTime = now.format("YYYY|DD:HH");
+  const formattedTime = now.format("YYYY-MM-DD");
 
   console.log(formattedTime);
 

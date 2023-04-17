@@ -7,13 +7,13 @@ import { AuthProvider } from "./store/auth-context";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./pages/login/Login";
 import Chat from "./pages/chat/chatroom";
+import History from "./pages/history/history";
 import Register from "./pages/register/register";
 import Verify from "./pages/register/verifyCode";
 
 function App() {
   return (
     <AuthProvider>
-      <a href="/">link text</a>
       <CartProvider>
         <BrowserRouter>
           <Navbar brand="iBookStore" chatroom="Chatroom" />
@@ -22,6 +22,7 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/history" element={<History />} />
             <Route path="/register" element={<Register />} />
             <Route path="verify" element={<Verify />} />
           </Routes>
