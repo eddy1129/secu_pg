@@ -1,12 +1,11 @@
 const models = require("../models");
+const AES = require("../util/aseUtil");
+const RSA = require("../util/rsaUtil");
 const Msg = models.msg;
 
 exports.create = async (req, res) => {
   if (
-    !req.body.room ||
-    !req.body.username ||
-    !req.body.usermsg ||
-    !req.body.time
+    !req.body.message
   ) {
     res.status(400).send({
       message: "The request is empty.",
@@ -14,16 +13,24 @@ exports.create = async (req, res) => {
     return;
   }
 
+  const data = req.body.message;
+
+  const key = RSA.rsaDecrypt(data.key);
+  const vi = RSA.rsaDecrypt(data.sign);
+
+  const content = JSON.parse(AES.aseDecrypt(data.content, key, vi));
+
   const msg = {
-    room: req.body.room,
-    username: req.body.username,
-    usermsg: req.body.usermsg,
-    time: req.body.time,
+    room: content.room,
+    username: content.username,
+    usermsg: content.usermsg,
+    time: content.time,
   };
 
   try {
     const data = await Msg.create(msg);
     res.send(data);
+
   } catch (err) {
     res.status(500).send({
       message: err.message || "Error",
@@ -34,7 +41,11 @@ exports.create = async (req, res) => {
 exports.findAll = async (req, res) => {
   try {
     const data = await Msg.findAll();
-    res.send(data);
+    const dataJson = JSON.stringify(data);
+    const msg = AES.doEncrypt(dataJson);
+
+    res.send(msg);
+
   } catch (err) {
     res.status(500).send({
       message: err.message || "Error",

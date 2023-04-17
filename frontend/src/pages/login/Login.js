@@ -40,13 +40,13 @@ function Login() {
 
     // Get response from the server
     try {
-      const res = await axios.get("http://localhost:8800/api/getPublicKey");
+      const rsa = await axios.get("http://localhost:8800/api/getPublicKey");
       console.log(
         "============login===public key================",
-        res.data.publicKey
+        rsa.data.publicKey
       );
 
-      encryptor.setPublicKey(res.data.publicKey);
+      encryptor.setPublicKey(rsa.data.publicKey);
       const encryptedPassword = encryptor.encrypt(passwordValue);
       console.log("encryptedPassword====", encryptedPassword);
       setEPassword(encryptedPassword);
