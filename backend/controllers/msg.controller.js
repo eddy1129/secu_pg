@@ -21,10 +21,10 @@ exports.create = async (req, res) => {
   const content = JSON.parse(AES.aseDecrypt(data.content, key, vi));
 
   const msg = {
-    room: content.room,
-    username: content.username,
-    usermsg: content.usermsg,
-    time: content.time,
+    room: content.room.toString(),
+    username: content.username.toString(),
+    usermsg: content.usermsg.toString(),
+    time: content.time.toString(),
   };
 
   try {
@@ -41,10 +41,7 @@ exports.create = async (req, res) => {
 exports.findAll = async (req, res) => {
   try {
     const data = await Msg.findAll();
-    const dataJson = JSON.stringify(data);
-    const msg = AES.doEncrypt(dataJson);
-
-    res.send(msg);
+    res.send(data);
 
   } catch (err) {
     res.status(500).send({
