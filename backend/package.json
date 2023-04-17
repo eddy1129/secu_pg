@@ -19,7 +19,10 @@
     "salted-md5": "^4.0.3",
     "nodemailer": "^6.9.1",
     "nodemailer-smtp-transport": "^2.7.4",
-    "node-rsa": "^1.1.1"
+    "node-rsa": "^1.1.1",
+    "socket.io": "^4.4.0",
+    "crypto": "^1.0.1",
+    "crypto-js": "^4.1.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

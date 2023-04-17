@@ -49,7 +49,7 @@ function sendVerifyMail(email) {
         "=======Login Verify Code send to " + email + " Success======"
       );
       // clear the old verify code to confirm the verify code is latest or unique
-      await Code.destroy({ where: { email: user.email } });
+      await Code.destroy({ where: { email: email } });
       // create a new verify code
       await Code.create({ email: email, code: verifyCode });
       setTimeout(async () => {

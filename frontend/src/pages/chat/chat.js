@@ -1,7 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
+import CryptoJS from 'crypto-js';
 import ScrollToBottom from "react-scroll-to-bottom";
 import "./chat.css";
 import axios from "axios";
+import JSEncrypt from "jsencrypt";
+
+function generateKey() {
+  const key = CryptoJS.lib.WordArray.random(128 / 8);
+  const iv = CryptoJS.lib.WordArray.random(128 / 8);
+
+  return {
+    key: CryptoJS.enc.Base64.stringify(key),
+    iv: CryptoJS.enc.Base64.stringify(iv),
+  };
+}
+
+async function encryptByRsa(data) {
+  const rsa = await axios.get("http://localhost:8800/api/getPublicKey");
+  const encryptor = new JSEncrypt();
+  encryptor.setPublicKey(rsa.data.publicKey);
+  return encryptor.encrypt(data);
+}
+
+function encryptMessage(message, pair) {
+  const { key, iv } = pair;
+  const key_p = CryptoJS.enc.Utf8.parse(CryptoJS.enc.Base64.parse(key));
+  const iv_p = CryptoJS.enc.Utf8.parse(CryptoJS.enc.Base64.parse(iv));
+  const plaintext = CryptoJS.enc.Utf8.parse(JSON.stringify(message));
+  const encrypted = CryptoJS.AES.encrypt(plaintext, key_p, {
+    iv: iv_p,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7
+  });
+
+    return encrypted.ciphertext.toString();
+}
+
 
 function Chat({ socket, username, room }) {
   const [currentMessage, setCurrentMessage] = useState("");
@@ -33,7 +67,18 @@ function Chat({ socket, username, room }) {
         time: timeString,
       };
 
-      await socket.emit("send_message", messageData);
+      const pair = generateKey();
+      console.log(pair);
+      const key = await encryptByRsa(pair.key);
+      const vi = await encryptByRsa(pair.iv);
+      const encryptedMessage = encryptMessage(messageData, pair);
+      const message = {
+        key : key,
+        sign: vi,
+        content : encryptedMessage,
+      }
+
+      await socket.emit("send_message", message);
       setMessageList((list) => [...list, messageData]);
       setCurrentMessage("");
 
@@ -42,10 +87,7 @@ function Chat({ socket, username, room }) {
       try {
         axios
           .post(`http://localhost:8800/messages`, {
-            room: messageData.room,
-            username: messageData.username,
-            usermsg: messageData.usermsg,
-            time: messageData.time,
+            message: message,
           })
           .then(function (response) {
             console.log(response);

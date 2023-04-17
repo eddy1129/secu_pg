@@ -3,7 +3,7 @@ const saltedMd5 = require("salted-md5");
 const JWT_SECRET = process.env.JWT_SECRET;
 const MD5_SALT = process.env.MD5_SALT;
 const Mail = require("../util/mailUtil");
-const RSA = require("../util/rsaUtil");
+const RSA = require("../util/rsaUtil.js");
 const models = require("../models");
 const User = models.user;
 const Code = models.code;
@@ -17,7 +17,7 @@ exports.login = async (req, res) => {
     return;
   }
 
-  const password = RSA.doDecrypt(req.body.password);
+  const password = RSA.rsaDecrypt(req.body.password);
 
   const user = {
     email: req.body.email,
@@ -57,7 +57,8 @@ exports.sendEmail = async (req, res) => {
     });
     return;
   }
-  const password = RSA.doDecrypt(req.body.password);
+
+  const password = RSA.rsaDecrypt(req.body.password);
 
   const user = {
     email: req.body.email,
