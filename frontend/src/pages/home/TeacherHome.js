@@ -7,11 +7,8 @@ function TeacherHome() {
   const { userType } = useContext(CartContext);
 
   return (
-    <div className={classes.home}>
-      <div className={classes.container}>
-        <CarouselFade />
-        <div>Write Marks {userType}</div>
-      </div>
+    <div>
+      <h1>Write Marks {userType}</h1>
     </div>
   );
 }

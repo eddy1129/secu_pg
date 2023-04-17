@@ -20,9 +20,7 @@ function Navbar(props) {
 
   return (
     <div className={classes.navbar}>
-      <Link to="/" className={classes.brand}>
-        {props.brand}
-      </Link>
+      <Link className={classes.brand}>{props.brand}</Link>
       <Link to="/history" className={classes.brand}>
         My History
       </Link>
@@ -32,7 +30,6 @@ function Navbar(props) {
       <div className={classes.navLinks}>
         {isLoggedIn && userLink}
         {isLoggedIn ? logoutLink : loginLink}
-        <Link to="/cart">Cart</Link>
       </div>
     </div>
   );
