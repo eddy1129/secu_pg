@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "../../store/auth-context.js";
+import classes from "./history.module.css";
 
 import axios from "axios";
 
@@ -20,13 +21,13 @@ export default function History() {
   }, [username]);
 
   return (
-    <div>
+    <div className={classes.align}>
       {paymentRecord.map((record) => {
         return (
           <div key={record.id}>
-            <div>Item: // ITEM</div>
-            <div>Price: {record.price}</div>
-            <div>Date: {record.date}</div>
+            <h1>Course Payment Record</h1>
+            <h2>Price: {record.price}</h2>
+            <h2>Date: {record.date}</h2>
             <br />
           </div>
         );

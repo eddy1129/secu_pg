@@ -2,8 +2,11 @@ import React from "react";
 import classes from "./ProductItem.module.css";
 import CartContext from "../store/cart-context";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ProductItem(props) {
+  const navigate = useNavigate();
+
   // Get the addCartItem function from CartContext
   const { addCartItem } = useContext(CartContext);
   // Define a handler function that add the current item to the cart
@@ -15,6 +18,8 @@ function ProductItem(props) {
       image: props.image,
       author: props.author,
     });
+
+    navigate("/cart");
   };
 
   // Apply the handler function to the "Add to cart" button
@@ -28,7 +33,7 @@ function ProductItem(props) {
             <span className={classes.author}>{props.author}</span>
             <span className={classes.price}>${props.price}</span>
           </div>
-          <button onClick={addCartItemHandler}>Add to cart</button>
+          <button onClick={addCartItemHandler}>Pay course fee</button>
         </div>
       </div>
     </div>
