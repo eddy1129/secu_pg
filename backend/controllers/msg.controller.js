@@ -4,9 +4,7 @@ const RSA = require("../util/rsaUtil");
 const Msg = models.msg;
 
 exports.create = async (req, res) => {
-  if (
-    !req.body.message
-  ) {
+  if (!req.body.message) {
     res.status(400).send({
       message: "The request is empty.",
     });
@@ -30,7 +28,6 @@ exports.create = async (req, res) => {
   try {
     const data = await Msg.create(msg);
     res.send(data);
-
   } catch (err) {
     res.status(500).send({
       message: err.message || "Error",
@@ -42,7 +39,6 @@ exports.findAll = async (req, res) => {
   try {
     const data = await Msg.findAll();
     res.send(data);
-
   } catch (err) {
     res.status(500).send({
       message: err.message || "Error",

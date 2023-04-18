@@ -1,5 +1,5 @@
 const models = require("../models");
-const saltedMd5 = require('salted-md5');
+const saltedMd5 = require("salted-md5");
 const MD5_SALT = process.env.MD5_SALT;
 const User = models.user;
 const RSA = require("../util/rsaUtil.js");
@@ -22,6 +22,7 @@ exports.create = async (req, res) => {
     username: temp.username,
     email: temp.email,
     password: saltedMd5(temp.password, MD5_SALT),
+    userType: temp.userType,
   };
 
   try {

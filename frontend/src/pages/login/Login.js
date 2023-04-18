@@ -3,6 +3,7 @@ import JSEncrypt from "jsencrypt";
 import classes from "./Login.module.css";
 import { Form, Button } from "react-bootstrap";
 import AuthContext from "../../store/auth-context";
+import CartContext from "../../store/cart-context";
 import { useNavigate } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
 import encrypt from "../../util/encryptUtil";
@@ -16,6 +17,7 @@ function Login() {
   const navigate = useNavigate();
 
   const { login } = useContext(AuthContext);
+  const { userType, defineEmail } = useContext(CartContext);
 
   const handleRegister = () => {
     navigate("/register");
@@ -37,6 +39,7 @@ function Login() {
 
     // Get response from the server
     try {
+
       const pairKey = encrypt.generateKey();
       const key = await encrypt.encryptByRsa(pairKey.key);
       const vi = await encrypt.encryptByRsa(pairKey.iv);
@@ -61,6 +64,7 @@ function Login() {
           pair: { key: key, iv: vi}
         }
       );
+      defineEmail(emailValue);
 
       console.log("vCodeResponse.data.verCode", vCodeResponse.data.verCode);
       const verCodeString = vCodeResponse.data.verCode;
@@ -102,7 +106,8 @@ function Login() {
         // Call the login function to update authState
         login(authState);
         // Redirect to the home page
-        navigate("/");
+
+        userType === "teacher" ? navigate("/teacher") : navigate("/student");
       } catch (error) {
         console.log(error);
       }
@@ -121,6 +126,7 @@ function Login() {
               placeholder="Enter verification code"
             />
           </Form.Group>
+
           <Button variant="primary" type="submit">
             Submit
           </Button>
@@ -129,7 +135,7 @@ function Login() {
 
       {!verifyView && (
         <Form className={classes.form} onSubmit={handleSubmit}>
-          <h1>Log In</h1>
+          <h1>Log In {userType}</h1>
           <Form.Group className="mb-3" controlId="email">
             <Form.Label>Email</Form.Label>
             <Form.Control type="email" placeholder="Enter email" />
@@ -138,6 +144,7 @@ function Login() {
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" placeholder="Password" />
           </Form.Group>
+
           <Button variant="primary" type="submit">
             Submit
           </Button>
