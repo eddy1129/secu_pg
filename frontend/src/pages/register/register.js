@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import encrypt from "../../util/encryptUtil";
 import { useState, useContext } from "react";
 import CartContext from "../../store/cart-context.js";
 
@@ -45,20 +46,31 @@ export default function Register() {
     });
   };
 
-  const addUser = () => {
+  const addUser = async () => {
+    const pairKey = encrypt.generateKey();
+    const key = await encrypt.encryptByRsa(pairKey.key);
+    const vi = await encrypt.encryptByRsa(pairKey.iv);
+
+    const user = {
+      username: f_username,
+      email: f_email,
+      password: f_password,
+      userType: userType,
+    };
+
+    const encryptedUser = await encrypt.encryptMessage(user,pairKey);
+
     axios
-      .post(`http://localhost:8800/users`, {
-        username: f_username,
-        email: f_email,
-        password: f_password,
-        userType: userType,
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+        .post(`http://localhost:8800/users`, {
+          user: encryptedUser,
+          pair: {key : key, iv : vi},
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     alert("Welcome ");
   };
 
@@ -78,7 +90,8 @@ export default function Register() {
                 <div class="row justify-content-center">
                   <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                     <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-                      Sign up {userType}
+                      Sign up {
+                      }
                     </p>
 
                     <form class="mx-1 mx-md-4">
