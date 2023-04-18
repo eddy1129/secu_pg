@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import encrypt from "../../util/encryptUtil";
 
 export default function Register() {
   const [f_username, setUsername] = useState("");
@@ -43,19 +44,30 @@ export default function Register() {
     });
   };
 
-  const addUser = () => {
+  const addUser = async () => {
+    const pairKey = encrypt.generateKey();
+    const key = await encrypt.encryptByRsa(pairKey.key);
+    const vi = await encrypt.encryptByRsa(pairKey.iv);
+
+    const user = {
+      username: f_username,
+      email: f_email,
+      password: f_password,
+    };
+
+    const encryptedUser = await encrypt.encryptMessage(user,pairKey);
+
     axios
-      .post(`http://localhost:8800/users`, {
-        username: f_username,
-        email: f_email,
-        password: f_password,
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+        .post(`http://localhost:8800/users`, {
+          user: encryptedUser,
+          pair: {key : key, iv : vi},
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     alert("Welcome ");
   };
 

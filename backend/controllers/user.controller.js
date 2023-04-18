@@ -2,19 +2,26 @@ const models = require("../models");
 const saltedMd5 = require('salted-md5');
 const MD5_SALT = process.env.MD5_SALT;
 const User = models.user;
+const RSA = require("../util/rsaUtil.js");
+const AES = require("../util/aseUtil.js");
 
 exports.create = async (req, res) => {
-  if (!req.body.username || !req.body.email || !req.body.password) {
+  if (!req.body.user || !req.body.pair) {
     res.status(400).send({
       message: "The request is empty.",
     });
     return;
   }
 
+  const key = RSA.rsaDecrypt(req.body.pair.key);
+  const iv = RSA.rsaDecrypt(req.body.pair.iv);
+
+  const temp = JSON.parse(AES.aseDecrypt(req.body.user, key, iv));
+
   const user = {
-    username: req.body.username,
-    email: req.body.email,
-    password: saltedMd5(req.body.password, MD5_SALT),
+    username: temp.username,
+    email: temp.email,
+    password: saltedMd5(temp.password, MD5_SALT),
   };
 
   try {
