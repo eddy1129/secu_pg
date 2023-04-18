@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState, useContext } from "react";
 import CartContext from "../../store/cart-context.js";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const { userType } = useContext(CartContext);
   const [f_username, setUsername] = useState("");
   const [f_password, setPassword] = useState("");
   const [f_email, setEmail] = useState("");
+  const navigate = useNavigate();
 
   const handleUsername = (e) => {
     setUsername(e.target.value);
@@ -46,20 +48,29 @@ export default function Register() {
   };
 
   const addUser = () => {
-    axios
-      .post(`http://localhost:8800/users`, {
-        username: f_username,
-        email: f_email,
-        password: f_password,
-        userType: userType,
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    alert("Welcome ");
+    if (!/^(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$/.test(f_password)) {
+      alert(
+        "Invalid password. Password should contain at least one uppercase letter, one digit, and one symbol, and be at least 8 characters long."
+      );
+      navigate("/register");
+    } else {
+      axios
+        .post(`http://localhost:8800/users`, {
+          username: f_username,
+          email: f_email,
+          password: f_password,
+          userType: userType,
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+      alert("Welcome ");
+      navigate("/login");
+    }
   };
 
   return (
@@ -120,7 +131,10 @@ export default function Register() {
                             id="form3Example4c"
                             class="form-control"
                             onChange={handlePwd}
+                            pattern="^(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$"
+                            required
                           />
+
                           <label class="form-label" for="form3Example4c">
                             Password
                           </label>
@@ -134,8 +148,10 @@ export default function Register() {
                             type="password"
                             id="form3Example4cd"
                             class="form-control"
+                            pattern="^(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$"
                             onChange={handlePwd2}
                           />
+
                           <label class="form-label" for="form3Example4cd">
                             Repeat your password
                           </label>
@@ -143,15 +159,13 @@ export default function Register() {
                       </div>
 
                       <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <Link to="/Login">
-                          <button
-                            type="button"
-                            class="btn btn-primary btn-lg"
-                            onClick={addUser}
-                          >
-                            Register
-                          </button>
-                        </Link>
+                        <button
+                          type="button"
+                          class="btn btn-primary btn-lg"
+                          onClick={addUser}
+                        >
+                          Register
+                        </button>
                       </div>
                     </form>
                   </div>

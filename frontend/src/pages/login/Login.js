@@ -39,15 +39,14 @@ function Login() {
 
     // Get response from the server
     try {
-
       const pairKey = encrypt.generateKey();
       const key = await encrypt.encryptByRsa(pairKey.key);
       const vi = await encrypt.encryptByRsa(pairKey.iv);
 
       const user = {
-        email : emailValue,
-        password : passwordValue,
-      }
+        email: emailValue,
+        password: passwordValue,
+      };
 
       setPair({ key: key, iv: vi });
 
@@ -56,12 +55,11 @@ function Login() {
 
       setEUser(encryptedUser);
 
-
       const vCodeResponse = await axios.post(
         "http://localhost:8800/auth/sendemail",
         {
           user: encryptedUser,
-          pair: { key: key, iv: vi}
+          pair: { key: key, iv: vi },
         }
       );
       defineEmail(emailValue);
@@ -87,7 +85,7 @@ function Login() {
       try {
         const response = await axios.post("http://localhost:8800/auth/login", {
           user: EUser,
-          pair: pair
+          pair: pair,
         });
 
         console.log("response", response);
@@ -140,6 +138,7 @@ function Login() {
             <Form.Label>Email</Form.Label>
             <Form.Control type="email" placeholder="Enter email" />
           </Form.Group>
+
           <Form.Group className="mb-3" controlId="password">
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" placeholder="Password" />
