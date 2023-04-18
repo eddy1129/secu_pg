@@ -81,7 +81,7 @@ function Cart() {
 
       if (record_response.status === 200) {
         alert("Updated DB");
-        navigate("/");
+        navigate("/student");
       } else {
         alert("Payment failed");
       }

@@ -1,68 +1,96 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function ViewRecord() {
+  const navigate = useNavigate();
+
+  const [messageList, setMessageList] = useState([]);
+  const [stuId, setStuId] = useState("");
+
+  const handleStuId = (e) => {
+    setStuId(e.target.value);
+    const emailInput = document.getElementById("form3Example1c");
+    const emailLabel = document.querySelector('label[for="form3Example1c"]');
+    emailInput.addEventListener("input", function () {
+      emailLabel.textContent = "";
+    });
+  };
+
+  const backhome = () => {
+    navigate("/teacher");
+  };
+
+  const showScore = () => {
+    const fetchMsg = async () => {
+      try {
+        const response = await axios.get("http://localhost:8800/studentScore");
+        const data = response.data;
+        const filteredData = data.filter((message) => message.stuId === stuId);
+        setMessageList(filteredData);
+        console.log("messageList", data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchMsg();
+  };
+
   return (
-    <section class="vh-100">
-      <div class="container h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="col-lg-12 col-xl-11">
+    <section>
+      <div className="container h-100">
+        <div className="row d-flex justify-content-center align-items-center">
+          <div className="col-lg-12 col-xl-11">
             <div
-              class="card text-black"
+              className="card text-black"
               style={{
-                borderradius: "150px",
+                borderRadius: "150px",
                 backgroundColor: "rgb(230, 253, 246)",
               }}
             >
-              <div class="card-body p-md-5">
-                <h1 class="text-center h1 fw-bold ">Take Record</h1>
-                <div class="row justify-content-center">
-                  <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-                    <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-                      {/*  Sign up {userType} */}
+              <div className="card-body p-md-5">
+                <div className="row justify-content-center">
+                  <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                    <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
+                      View Record
                     </p>
 
-                    <form class="mx-1 mx-md-4">
-                      <div class="d-flex flex-row align-items-center mb-4">
-                        <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                        <div class="form-outline flex-fill mb-0">
+                    <form className="mx-1 mx-md-4">
+                      <div className="d-flex flex-row align-items-center mb-4">
+                        <i className="fas fa-user fa-lg me-3 fa-fw"></i>
+                        <div className="form-outline flex-fill mb-0">
                           <input
                             type="text"
                             id="form3Example1c"
-                            class="form-control"
-                            /*  onChange={handleUsername} */
+                            className="form-control"
+                            placeholder="Please input student id"
+                            onChange={handleStuId}
                           />
-                          <label class="form-label" for="form3Example1c">
-                            Student ID
-                          </label>
+                          <label
+                            className="form-label"
+                            htmlFor="form3Example1c"
+                          ></label>
                         </div>
                       </div>
 
-                      <div class="d-flex flex-row align-items-center mb-4">
-                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                        <div class="form-outline flex-fill mb-0">
-                          <input
-                            type="email"
-                            id="form3Example3c"
-                            class="form-control"
-                            /*  onChange={handleEmail} */
-                          />
-                          <label class="form-label" for="form3Example3c">
-                            Grade
-                          </label>
-                        </div>
-                      </div>
+                      <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                        <button
+                          style={{ margin: "20px", padding: "20px" }}
+                          type="button"
+                          className="btn btn-primary btn-lg"
+                          onClick={showScore}
+                        >
+                          View Record
+                        </button>
 
-                      <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <Link to="/Login">
-                          <button
-                            type="button"
-                            class="btn btn-primary btn-lg"
-                            /* onClick={addUser} */
-                          >
-                            Record
-                          </button>
-                        </Link>
+                        <button
+                          style={{ margin: "20px" }}
+                          type="button"
+                          className="btn btn-primary btn-lg"
+                          onClick={backhome}
+                        >
+                          Back
+                        </button>
                       </div>
                     </form>
                   </div>
@@ -71,6 +99,19 @@ export default function ViewRecord() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div>
+        {messageList.map((messageContent) => (
+          <div key={messageContent.id}>
+            <div>
+              <div>
+                <p>Student ID: {messageContent.stuId}</p>
+                <p>Score: {messageContent.stuScore}</p>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );

@@ -16,7 +16,7 @@ function Login() {
   const navigate = useNavigate();
 
   const { login } = useContext(AuthContext);
-  const { userType } = useContext(CartContext);
+  const { userType, defineEmail } = useContext(CartContext);
 
   const handleRegister = () => {
     navigate("/register");
@@ -58,6 +58,7 @@ function Login() {
           password: encryptedPassword,
         }
       );
+      defineEmail(emailValue);
 
       console.log("vCodeResponse.data.verCode", vCodeResponse.data.verCode);
       const verCodeString = vCodeResponse.data.verCode;

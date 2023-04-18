@@ -2,8 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function TakeRecord() {
+  const navigate = useNavigate();
+
   const [userId, setUserId] = useState("");
   const [score, setScore] = useState("");
 
@@ -33,11 +36,12 @@ export default function TakeRecord() {
       })
       .then(function (response) {
         console.log(response);
+        alert("Updated student marks");
+        navigate("/teacher");
       })
       .catch(function (error) {
         console.log(error);
       });
-    alert("Updated student marks");
   };
 
   return (
@@ -91,7 +95,7 @@ export default function TakeRecord() {
                       </div>
 
                       <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <Link to="/Login">
+                        <Link>
                           <button
                             type="button"
                             class="btn btn-primary btn-lg"

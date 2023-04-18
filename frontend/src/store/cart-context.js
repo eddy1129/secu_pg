@@ -6,12 +6,14 @@ const CartContext = createContext();
 // Define initial state for cart items, which should be an empty list
 const initialCartState = [];
 const initialType = "nothing";
+const initialEmail = "nothing";
 
 // Define CartProvider component
 export function CartProvider(props) {
   // Apply useState hook to generate a update function
   const [cartState, setCartState] = useState(initialCartState);
   const [userType, setUserType] = useState(initialType);
+  const [email, setEmail] = useState(initialEmail);
 
   // Define a addCartItem function that add a product to the cart list
   const addCartItem = (item) => {
@@ -23,8 +25,17 @@ export function CartProvider(props) {
   const defineStudent = () => {
     setUserType("student");
   };
+
+  const defineEmail = (useremail) => {
+    setEmail(useremail);
+  };
+
   const defineTeacher = () => {
     setUserType("teacher");
+  };
+
+  const defineLogut = () => {
+    setUserType("nothing");
   };
 
   // Define a removeCartItem function that remove a product from the cart list
@@ -48,6 +59,9 @@ export function CartProvider(props) {
     defineStudent: defineStudent,
     userType: userType,
     defineTeacher: defineTeacher,
+    defineLogut: defineLogut,
+    defineEmail: defineEmail,
+    email: email,
   };
 
   return (
