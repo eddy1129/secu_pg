@@ -5,6 +5,8 @@ import CartItem from "../../components/CartItem.js";
 import CartContext from "../../store/cart-context.js";
 import AuthContext from "../../store/auth-context.js";
 import classes from "./Cart.module.css";
+import { useNavigate } from "react-router-dom";
+
 // Import publishable key from .env file
 const publishableKey = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
 
@@ -12,6 +14,7 @@ function Cart() {
   // Get token from AuthContext
   const { token, username } = useContext(AuthContext);
   const moment = require("moment-timezone");
+  const navigate = useNavigate();
 
   // Set the timezone to Hong Kong
   moment.tz.setDefault("Asia/Hong_Kong");
@@ -78,6 +81,7 @@ function Cart() {
 
       if (record_response.status === 200) {
         alert("Updated DB");
+        navigate("/student");
       } else {
         alert("Payment failed");
       }
@@ -105,9 +109,8 @@ function Cart() {
         <div>
           <ul className={classes.cartList}>
             {cartList}
-            <h2>Total: ${total}</h2>
             <StripeCheckout token={onToken} stripeKey={publishableKey}>
-              <button>Checkout</button>
+              <button>Confirm Payment</button>
             </StripeCheckout>
           </ul>
         </div>

@@ -7,6 +7,15 @@
   justify-content: space-between;
 }
 
+.navbar2 {
+  height: 50px;
+  background-color: red;
+  display: flex;
+  padding: 0 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .brand {
   font-weight: 500;
   font-size: large;
