@@ -6,11 +6,12 @@ import AuthContext from "../../store/auth-context";
 import CartContext from "../../store/cart-context";
 import { useNavigate } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
+import encrypt from "../../util/encryptUtil";
 
 function Login() {
   const [verifyView, setVerifyView] = useState(false);
-  const [email, setEmail] = useState("");
-  const [Epassword, setEPassword] = useState("");
+  const [pair, setPair] = useState("");
+  const [EUser, setEUser] = useState("");
   const [vCode, setVCode] = useState("No verify code");
 
   const navigate = useNavigate();
@@ -36,26 +37,31 @@ function Login() {
     const emailValue = event.target.email.value;
     const passwordValue = event.target.password.value;
 
-    setEmail(emailValue);
-
     // Get response from the server
     try {
-      const rsa = await axios.get("http://localhost:8800/api/getPublicKey");
-      console.log(
-        "============login===  public key   ================",
-        rsa.data.publicKey
-      );
 
-      encryptor.setPublicKey(rsa.data.publicKey);
-      const encryptedPassword = encryptor.encrypt(passwordValue);
-      console.log("encryptedPassword====", encryptedPassword);
-      setEPassword(encryptedPassword);
+      const pairKey = encrypt.generateKey();
+      const key = await encrypt.encryptByRsa(pairKey.key);
+      const vi = await encrypt.encryptByRsa(pairKey.iv);
+
+      const user = {
+        email : emailValue,
+        password : passwordValue,
+      }
+
+      setPair({ key: key, iv: vi });
+
+      const encryptedUser = encrypt.encryptMessage(user, pairKey);
+      console.log("encryptedUser====", encryptedUser);
+
+      setEUser(encryptedUser);
+
 
       const vCodeResponse = await axios.post(
         "http://localhost:8800/auth/sendemail",
         {
-          email: emailValue,
-          password: encryptedPassword,
+          user: encryptedUser,
+          pair: { key: key, iv: vi}
         }
       );
       defineEmail(emailValue);
@@ -71,8 +77,8 @@ function Login() {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    console.log("==========login email", email);
-    console.log("==========login Epassword", Epassword);
+    console.log("==========login pair", pair);
+    console.log("==========login EUser", EUser);
     console.log("==========login vCode", vCode);
 
     const verificationCodeValue = event.target?.verificationCode?.value;
@@ -80,8 +86,8 @@ function Login() {
     if (verificationCodeValue === vCode) {
       try {
         const response = await axios.post("http://localhost:8800/auth/login", {
-          email: email,
-          password: Epassword,
+          user: EUser,
+          pair: pair
         });
 
         console.log("response", response);

@@ -4,24 +4,28 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const MD5_SALT = process.env.MD5_SALT;
 const Mail = require("../util/mailUtil");
 const RSA = require("../util/rsaUtil.js");
+const AES = require("../util/aseUtil.js");
 const models = require("../models");
 const User = models.user;
 const Code = models.code;
 
 // Login
 exports.login = async (req, res) => {
-  if (!req.body.email || !req.body.password) {
+  if (!req.body.user || !req.body.pair) {
     res.status(400).send({
       message: "The request is empty.",
     });
     return;
   }
 
-  const password = RSA.rsaDecrypt(req.body.password);
+  const key = RSA.rsaDecrypt(req.body.pair.key);
+  const iv = RSA.rsaDecrypt(req.body.pair.iv);
+
+  const temp = JSON.parse(AES.aseDecrypt(req.body.user, key, iv));
 
   const user = {
-    email: req.body.email,
-    password: saltedMd5(password, MD5_SALT),
+    email: temp.email,
+    password: saltedMd5(temp.password, MD5_SALT),
   };
 
   const data = await User.findOne({ where: { email: user.email } });
@@ -51,18 +55,21 @@ exports.logout = (req, res) => {
 };
 
 exports.sendEmail = async (req, res) => {
-  if (!req.body.email || !req.body.password) {
+  if (!req.body.user || !req.body.pair) {
     res.status(400).send({
       message: "The request is empty.",
     });
     return;
   }
 
-  const password = RSA.rsaDecrypt(req.body.password);
+  const key = RSA.rsaDecrypt(req.body.pair.key);
+  const iv = RSA.rsaDecrypt(req.body.pair.iv);
+
+  const temp = JSON.parse(AES.aseDecrypt(req.body.user, key, iv));
 
   const user = {
-    email: req.body.email,
-    password: saltedMd5(password, MD5_SALT),
+    email: temp.email,
+    password: saltedMd5(temp.password, MD5_SALT),
   };
 
   const data = await User.findOne({ where: { email: user.email } });
