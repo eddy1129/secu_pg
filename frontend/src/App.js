@@ -12,6 +12,9 @@ import Register from "./pages/register/register";
 import Verify from "./pages/register/verifyCode";
 import Select from "./pages/login/Select";
 import TeacherHome from "./pages/home/TeacherHome";
+import TakeRecord from "./pages/teacher_record/TakeRecord";
+import ViewRecord from "./pages/teacher_record/ViewRecord";
+import CheckRobot from "./pages/login/CheckRobot";
 
 function App() {
   return (
@@ -22,7 +25,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Select />} />
             <Route path="/student" element={<Home />} />
+            <Route path="/checkRobot" element={<CheckRobot />} />
             <Route path="/teacher" element={<TeacherHome />} />
+            <Route path="/viewGrade" element={<ViewRecord />} />
+            <Route path="/recordGrade" element={<TakeRecord />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/login" element={<Login />} />
