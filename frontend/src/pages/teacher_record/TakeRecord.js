@@ -1,7 +1,45 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
 
 export default function TakeRecord() {
+  const [userId, setUserId] = useState("");
+  const [score, setScore] = useState("");
+
+  const handleUserId = (e) => {
+    setUserId(e.target.value);
+    const emailInput = document.getElementById("form3Example1c");
+    const emailLabel = document.querySelector('label[for="form3Example1c"]');
+    emailInput.addEventListener("input", function () {
+      emailLabel.textContent = "";
+    });
+  };
+
+  const handleScore = (e) => {
+    setScore(e.target.value);
+    const emailInput = document.getElementById("form3Example3c");
+    const emailLabel = document.querySelector('label[for="form3Example3c"]');
+    emailInput.addEventListener("input", function () {
+      emailLabel.textContent = "";
+    });
+  };
+
+  const addScore = () => {
+    axios
+      .post(`http://localhost:8800/studentscore`, {
+        stuId: userId,
+        stuScore: score,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    alert("Updated student marks");
+  };
+
   return (
     <section class="vh-100">
       <div class="container h-100">
@@ -15,11 +53,10 @@ export default function TakeRecord() {
               }}
             >
               <div class="card-body p-md-5">
-                <h1 class="text-center h1 fw-bold ">Take Record</h1>
                 <div class="row justify-content-center">
                   <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                     <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-                      {/*  Sign up {userType} */}
+                      Take Record
                     </p>
 
                     <form class="mx-1 mx-md-4">
@@ -30,7 +67,7 @@ export default function TakeRecord() {
                             type="text"
                             id="form3Example1c"
                             class="form-control"
-                            /*  onChange={handleUsername} */
+                            onChange={handleUserId}
                           />
                           <label class="form-label" for="form3Example1c">
                             Student ID
@@ -45,7 +82,7 @@ export default function TakeRecord() {
                             type="email"
                             id="form3Example3c"
                             class="form-control"
-                            /*  onChange={handleEmail} */
+                            onChange={handleScore}
                           />
                           <label class="form-label" for="form3Example3c">
                             Grade
@@ -58,7 +95,7 @@ export default function TakeRecord() {
                           <button
                             type="button"
                             class="btn btn-primary btn-lg"
-                            /* onClick={addUser} */
+                            onClick={addScore}
                           >
                             Record
                           </button>
