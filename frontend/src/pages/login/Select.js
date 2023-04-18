@@ -10,12 +10,12 @@ export default function Select() {
 
   const selectTeacher = () => {
     defineTeacher();
-    navigate("/teacher");
+    navigate("/checkRobot");
   };
 
   const selectStudent = () => {
     defineStudent();
-    navigate("/student");
+    navigate("/checkRobot");
   };
 
   return (
