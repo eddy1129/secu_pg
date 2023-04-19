@@ -39,13 +39,22 @@ export default function History() {
   }, [username]);
 
   return (
-    <div className={classes.align}>
+    <div
+      className={classes.align}
+      style={{
+        backgroundColor: "black",
+        color: "white",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       {paymentRecord.map((record) => {
         return (
           <div key={record.id}>
             <h1>Course Payment Record</h1>
-            <h2>Price: {record.price}</h2>
-            <h2>Date: {record.date}</h2>
+            <h4>Price: {record.price}</h4>
+            <h4>Date: {record.date}</h4>
             <br />
           </div>
         );
@@ -55,9 +64,9 @@ export default function History() {
         return (
           <div key={record.id}>
             <h1>Chat Room Record</h1>
-            <h2>room: {record.room}</h2>
-            <h2>usermsg: {record.usermsg}</h2>
-            <h2>time: {record.time}</h2>
+            <h4>room: {record.room}</h4>
+            <h4>usermsg: {record.usermsg}</h4>
+            <h4>time: {record.time}</h4>
             <br />
           </div>
         );

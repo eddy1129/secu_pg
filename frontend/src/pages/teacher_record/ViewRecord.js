@@ -98,20 +98,28 @@ export default function ViewRecord() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div>
-        {messageList.map((messageContent) => (
-          <div key={messageContent.id}>
-            <div>
-              <div>
-                <p>Student ID: {messageContent.stuId}</p>
-                <p>Score: {messageContent.stuScore}</p>
+          <div
+            style={{
+              backgroundColor: "black",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              color: "white",
+              width: "50%",
+            }}
+          >
+            {messageList.map((messageContent) => (
+              <div key={messageContent.id}>
+                <div>
+                  <div style={{ textAlign: "center" }}>
+                    <h4>Student ID: {messageContent.stuId}</h4>
+                    <h4>Score: {messageContent.stuScore}</h4>
+                  </div>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </section>
   );

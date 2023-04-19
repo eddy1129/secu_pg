@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
+import encrypt from "../../util/encryptUtil";
 import { useState, useContext } from "react";
 import CartContext from "../../store/cart-context.js";
 import { useNavigate } from "react-router-dom";
@@ -47,19 +47,30 @@ export default function Register() {
     });
   };
 
-  const addUser = () => {
+  const addUser = async () => {
     if (!/^(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$/.test(f_password)) {
       alert(
         "Invalid password. Password should contain at least one uppercase letter, one digit, and one symbol, and be at least 8 characters long."
       );
       navigate("/register");
     } else {
+      const pairKey = encrypt.generateKey();
+      const key = await encrypt.encryptByRsa(pairKey.key);
+      const vi = await encrypt.encryptByRsa(pairKey.iv);
+
+      const user = {
+        username: f_username,
+        email: f_email,
+        password: f_password,
+        userType: userType,
+      };
+
+      const encryptedUser = await encrypt.encryptMessage(user, pairKey);
+
       axios
         .post(`http://localhost:8800/users`, {
-          username: f_username,
-          email: f_email,
-          password: f_password,
-          userType: userType,
+          user: encryptedUser,
+          pair: { key: key, iv: vi },
         })
         .then(function (response) {
           console.log(response);
@@ -67,7 +78,6 @@ export default function Register() {
         .catch(function (error) {
           console.log(error);
         });
-
       alert("Welcome ");
       navigate("/login");
     }
@@ -89,7 +99,7 @@ export default function Register() {
                 <div class="row justify-content-center">
                   <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                     <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-                      Sign up {userType}
+                      Sign up {}
                     </p>
 
                     <form class="mx-1 mx-md-4">
@@ -131,10 +141,7 @@ export default function Register() {
                             id="form3Example4c"
                             class="form-control"
                             onChange={handlePwd}
-                            pattern="^(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$"
-                            required
                           />
-
                           <label class="form-label" for="form3Example4c">
                             Password
                           </label>
@@ -148,10 +155,8 @@ export default function Register() {
                             type="password"
                             id="form3Example4cd"
                             class="form-control"
-                            pattern="^(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$"
                             onChange={handlePwd2}
                           />
-
                           <label class="form-label" for="form3Example4cd">
                             Repeat your password
                           </label>

@@ -27,12 +27,24 @@ export default function Marks() {
   }, []);
 
   return (
-    <div>
+    <div
+      style={{
+        backgroundColor: "black",
+        color: "white",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        marginTop: "30%",
+        height: "100px",
+      }}
+    >
       {messageList.map((messageContent) => (
         <div key={messageContent.id}>
           <div>
             <div>
-              <p>Score: {messageContent.stuScore}</p>
+              <h4 style={{ textAlign: "center" }}>
+                Score: {messageContent.stuScore}
+              </h4>
             </div>
           </div>
         </div>

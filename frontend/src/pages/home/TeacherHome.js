@@ -16,13 +16,34 @@ function TeacherHome() {
     navigate("/viewGrade");
   };
   return (
-    <div>
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
       {email !== "nothing" ? (
         <div>
-          <h1>Write Marks {userType}</h1>
-
-          <Button onClick={recordGrade}> Record assignment </Button>
-          <Button onClick={viewGrade}>Veiw student record</Button>
+          <h1 style={{ marginTop: "20vh", marginBottom: "20px" }}>
+            Write Marks {userType}
+          </h1>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
+            <Button
+              onClick={recordGrade}
+              style={{ width: "200px", height: "50px" }}
+            >
+              Record assignment
+            </Button>
+            <Button
+              onClick={viewGrade}
+              style={{ marginLeft: "10px", width: "200px", height: "50px" }}
+            >
+              View student record
+            </Button>
+          </div>
         </div>
       ) : (
         <h1>Please login</h1>
